@@ -84,6 +84,7 @@ function LineGraph({ casesType = "cases" }) {
 
   return (
     <div>
+      {/*data && data.length > 0 && */}
       {data?.length > 0 && (
         <Line
           options={options}
