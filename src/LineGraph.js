@@ -14,10 +14,11 @@ const options = {
   },
   maintainAspectRatio: false,
   tootips: {
+    mode: "index",
     intersect: false,
     callbacks: {
       label: function (tooltipItem, data) {
-        return numeral(tooltipItem.value).format("+0.0");
+        return numeral(tooltipItem.value).format("+0,0");
       },
     },
   },
