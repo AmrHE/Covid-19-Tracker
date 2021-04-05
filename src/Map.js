@@ -24,7 +24,7 @@ function Map({ casesType, countries, center, zoom }) {
         />
       {showDataOnMap(countries, casesType)}
     </MapContainer>
-  )
+  );
 }
 
 export default Map
