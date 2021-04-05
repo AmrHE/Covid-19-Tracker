@@ -12,10 +12,6 @@ body {
   padding: 20px;
 }
 
-.app__left{
-  flex: 0.9;
-}
-
 .app__dropdown{
   background-color: white;
 }
@@ -25,7 +21,6 @@ body {
   align-items: center;
   margin-bottom: 20px;
   justify-content: space-between;
-
 }
 
 .app__header > h1 {
@@ -37,6 +32,12 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+
+.app__left{
+  flex: 0.9;
+}
+
 
 .app__right {
   display: flex;

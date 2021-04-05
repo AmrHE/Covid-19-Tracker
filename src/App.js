@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import './App.css';
 import { FormControl, Select, MenuItem, Card, CardContent } from '@material-ui/core';
 import InfoBox from './InfoBox';
-import Map from './Map';
+import LineGraph from './LineGraph';
 import Table from './Table';
 import { prettyPrintStat, sortData } from './util';
-import LineGraph from './LineGraph';
+import numeral from 'numeral';
+import Map from './Map';
 import "leaflet/dist/leaflet.css";
-import './App.css';
 
 function App() {
-
-  const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
+  const [countries, setCountries] = useState([]);
+  const [mapCountries, setMapCountries] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [casesType, setCasesType] = useState("cases");
   const [mapCenter, setMapCenter] = useState({ lat:34.80746, lng: -40.4796});
   const [mapZoom, setMapZoom] = useState(3);
-  const [mapCountries, setMapCountries] = useState([]);
-  const [casesType, setcasesType] = useState("cases");
 
 
   //Fetch the worlwide Data
@@ -42,9 +42,9 @@ function App() {
         }));
 
 
-        const sortedData = sortData(data);
-        setTableData(sortedData);
+        let sortedData = sortData(data);
         setCountries(countries);
+        setTableData(sortedData);
         setMapCountries(data);
       });
     };
@@ -73,12 +73,15 @@ function App() {
 
   return (
     <div className="app">
-
       <div className="app__left">
         <div className="app__header">
           <h1>Covid-19 Tracker</h1>
           <FormControl className="app__dropdown">
-            <Select variant="outlined" onChange={onCountryChange} value={country}>
+            <Select 
+              variant="outlined" 
+              value={country}
+              onChange={onCountryChange} 
+            >
             <MenuItem value="worldwide" >Worldwide</MenuItem>
             {countries.map(country => (
               <MenuItem key={country.name} value={country.value}>{country.name}</MenuItem>
@@ -89,38 +92,38 @@ function App() {
 
         <div className="app__stats">
           <InfoBox 
+            onClick={(e) => setCasesType('cases')}
+            title="Coronavirus Cases" 
             isRed
             active={casesType === "cases"}
-            onClick={e => setcasesType('cases')}
-            title="Coronavirus Cases" 
             cases={prettyPrintStat(countryInfo.todayCases)} 
-            total={prettyPrintStat(countryInfo.cases)} 
+            total={numeral(countryInfo.cases).format("0.0a")} 
           />
           <InfoBox 
-            active={casesType === "recovered"}
-            onClick={e => setcasesType('recovered')}
+            onClick={(e) => setCasesType('recovered')}
             title="Recovered" 
+            active={casesType === "recovered"}
             cases={prettyPrintStat(countryInfo.todayRecovered)} 
-            total={prettyPrintStat(countryInfo.recovered)} 
+            total={numeral(countryInfo.recovered).format("0.0a")} 
           />
           <InfoBox 
+            onClick={(e) => setCasesType('deaths')}
             isRed
             active={casesType === "deaths"}
-            onClick={e => setcasesType('deaths')}
             title="Deaths" 
             cases={prettyPrintStat(countryInfo.todayDeaths)} 
-            total={prettyPrintStat(countryInfo.deaths)} 
+            total={numeral(countryInfo.deaths).format("0.0a")} 
           />
         </div>
 
         <Map
-          casesType={casesType}
           countries={mapCountries}
+          casesType={casesType}
           center={mapCenter}
           zoom={mapZoom}
         />
-      </div
-      >
+      </div>
+      
       <Card className="app__right">
         <CardContent>
           <h3>Live Cases by Country</h3>
