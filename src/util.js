@@ -34,6 +34,11 @@ export const sortData = (data) => {
   return sortedData
 };
 
+
+//Reformat the InfoBox numbers
+export const prettyPrintStat = (stat) =>
+ stat ? `+${numeral(stat).format("0.0a")}` : "+0";
+
 //Draw circles on the map with interactive tooltips
 export const showDataOnMap = (data, casesType = "cases") => (
   data.map(country => (
